@@ -43,7 +43,9 @@ test(`shows error message when username is missing`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText('loading...'))
 
-  expect(screen.getByText('username required')).toBeInTheDocument()
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"username required"`,
+  )
 })
 
 test(`shows error message when password is missing`, async () => {
@@ -55,5 +57,7 @@ test(`shows error message when password is missing`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText('loading...'))
 
-  expect(screen.getByText('password required')).toBeInTheDocument()
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
