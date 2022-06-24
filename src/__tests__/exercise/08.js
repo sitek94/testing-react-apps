@@ -2,7 +2,7 @@
 // http://localhost:3000/counter-hook
 
 import * as React from 'react'
-import {render, screen, act} from '@testing-library/react'
+import {render, screen, act, renderHook} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useCounter from '../../components/use-counter'
 
@@ -71,4 +71,18 @@ test('allows customization of the step', () => {
   expect(results.count).toBe(4)
   act(() => results.decrement())
   expect(results.count).toBe(2)
+})
+
+test('use renderHook from react-hooks testing library', () => {
+  const {result} = renderHook(useCounter, {
+    initialProps: {
+      initialCount: 10,
+      step: 2,
+    },
+  })
+  expect(result.current.count).toBe(10)
+  act(() => result.current.increment())
+  expect(result.current.count).toBe(12)
+  act(() => result.current.decrement())
+  expect(result.current.count).toBe(10)
 })
