@@ -47,4 +47,28 @@ test('uses fake component to test the hook', () => {
   expect(result.count).toBe(0)
 })
 
-/* eslint no-unused-vars:0 */
+function setup({initialCount, step}) {
+  const results = {}
+  function TestComponent() {
+    Object.assign(results, useCounter({initialCount, step}))
+    return null
+  }
+  render(<TestComponent />)
+  return results
+}
+
+test('allows customization of the initial count ', () => {
+  const results = setup({initialCount: 10})
+  expect(results.count).toBe(10)
+})
+
+test('allows customization of the step', () => {
+  const results = setup({step: 2})
+  expect(results.count).toBe(0)
+  act(() => results.increment())
+  expect(results.count).toBe(2)
+  act(() => results.increment())
+  expect(results.count).toBe(4)
+  act(() => results.decrement())
+  expect(results.count).toBe(2)
+})
